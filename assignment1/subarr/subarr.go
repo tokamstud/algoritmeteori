@@ -60,11 +60,9 @@ func (tcs *TheConcStr) maxSubArr(left int, right int) float64 {
 		sum += tcs.arr[i]
 		maxToRight = math.Max(maxToRight, sum)
 	}
-
 	maxCrossing := maxToLeft + maxToRight
 	maxInL := tcs.maxSubArr(left, m)
 	maxInR := tcs.maxSubArr(m+1, right)
-	
 	return math.Max(math.Max(maxCrossing, maxInL), maxInR)
 }
 
