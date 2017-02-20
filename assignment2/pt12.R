@@ -1,0 +1,6 @@
+library("linprog")
+c=c(3,5)
+b=c(50,240)
+A=rbind(c(1,2),c(8,3))
+res=solveLP(c,b,A,maximum=TRUE)
+print(res)
