@@ -6,7 +6,7 @@ res=solveLP(c,b,A,maximum=TRUE)
 print(res)
 
 
-
+// see if any hours left
 x <- c(9.23,7.66,9.43)
 
 print(sum(c(1,2,8) * x))
