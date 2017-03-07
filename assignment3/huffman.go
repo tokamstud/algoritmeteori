@@ -10,8 +10,8 @@ import (
 )
 
 type Node struct {
-	left   *Node
-	right  *Node
+	left *Node
+	right *Node
 	freq   int
 	val string
 }
@@ -41,8 +41,19 @@ func (d *NodeHeap) Pop() interface{} {
 	return x
 }
 
-func Huffman(nh NodeHeap) {
-
+func Huffman(nh *NodeHeap) *NodeHeap {
+	n := nh.Len()
+	qnh := nh
+	for i := 1; i < n; i++ {
+		z := &Node{}
+		x := heap.Pop(qnh).(Node)
+		y := heap.Pop(qnh).(Node)
+		z.left = &x
+		z.right = &y
+		z.freq = x.freq + y.freq
+		heap.Push(qnh, *z)
+	}
+	return nh
 }
 
 func main() {
@@ -56,8 +67,11 @@ func main() {
 	}
 	heap.Init(nh)
 
-	for nh.Len() > 0 {
-		fmt.Println(heap.Pop(nh))
+	qnh := Huffman(nh)
+	fmt.Println(*qnh)
+
+	for _, root := range *qnh {
+		fmt.Println(root)
 	}
 }
 
