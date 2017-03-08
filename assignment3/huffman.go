@@ -24,6 +24,7 @@ func NewNode(val string, freq int) *Node {
 }
 
 type NodeHeap []Node
+var codeTable map[string]string
 
 func (d NodeHeap) Len() int           { return len(d) }
 func (d NodeHeap) Less(a, b int) bool { return d[a].freq < d[b].freq }
@@ -41,7 +42,11 @@ func (d *NodeHeap) Pop() interface{} {
 	return x
 }
 
-func Huffman(nh *NodeHeap) *NodeHeap {
+func goFuckYourself() string {
+	return "Go fuck yourself"
+}
+
+func Huffman(nh *NodeHeap) Node {
 	n := nh.Len()
 	qnh := nh
 	for i := 1; i < n; i++ {
@@ -53,7 +58,7 @@ func Huffman(nh *NodeHeap) *NodeHeap {
 		z.freq = x.freq + y.freq
 		heap.Push(qnh, *z)
 	}
-	return nh
+	return heap.Pop(qnh).(Node)
 }
 
 func main() {
@@ -61,18 +66,47 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	raw := make(map[string]int)
+
 	nh := &NodeHeap{}
+	var bits int
+
 	for _, node := range nodes {
 		*nh = append(*nh, node)
+		raw[node.val] = node.freq
+		bits+=node.freq*8
 	}
 	heap.Init(nh)
 
+	// createing huffman tree
 	qnh := Huffman(nh)
-	fmt.Println(*qnh)
 
-	for _, root := range *qnh {
-		fmt.Println(root)
+	codeTable = make(map[string]string)
+	getCodes(&qnh, "", codeTable)
+
+	fmt.Println("Before compression", bits)
+	bits = 0
+	for key, val := range codeTable {
+		fmt.Println(val,raw[val], key)
+		bits+=len(key)*raw[val]
 	}
+	fmt.Println("After compression", bits)
+}
+
+func getCodes(root *Node, code string, codeTable map[string]string) map[string]string {
+	if root != nil {
+		if root.left != nil {
+			getCodes(root.left, code+"0", codeTable)
+		}
+		if root.right != nil {
+			getCodes(root.right, code+"1", codeTable)
+		}
+		if root.right == nil && root.right == nil {
+			codeTable[code] = root.val
+		}
+	}
+	return codeTable
+
 }
 
 func NodesFromFile(path string) (NodeHeap, error) {
