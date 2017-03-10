@@ -3,7 +3,7 @@
 ## Finding the majority
 
 1. ./majority.go
-2. I fwe use dynamic programming it will make the code more complicated and increase the computation time, it is possible to solve it without dynamic programming.
+2. We can use dynamic programming by saving and counting all the different number occurances and then see if we get majority on one of them.
 
 
 ## Maximizing exam marks
