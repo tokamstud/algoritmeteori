@@ -21,7 +21,7 @@ def dyn_fib(n, l):
 	return l[n-1]
 
 
-fibNo = 7
+fibNo = 10
 print("fibonnacci no:" + str(fibNo))
 print("recursive : ")
 print(req_fib(fibNo))	# complexity = O(2^n)
