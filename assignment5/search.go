@@ -64,7 +64,7 @@ func (g *Graph) setColor(val Vertex, col string) {
 	}
 }
 
-func (g *Graph) printG() {
+func (g *Graph) printGraph() {
 	fmt.Println("Vertex:\t\tParent:\t\tDistance:\tTime:\tColor:")
 	for _, v := range g.V {
 		fmt.Printf("%s\t\t%s\t\t%.0f\t\t%.0f\t%s\n", v.value, v.p, v.d, v.f, v.color)
@@ -76,13 +76,13 @@ func DFS(gr *Graph) {
 	time := 0.0
 	for i := 0; i < len(gr.V); i++ {
 		if gr.V[i].color == "white" {
-			time = dfsVisit(gr, &gr.V[i], time)
+			time = DFSLook(gr, &gr.V[i], time)
 		}
 	}
 }
 
-func dfsVisit(gr *Graph, vert *Vertex, time float64) float64 {
-	gr.printG()
+func DFSLook(gr *Graph, vert *Vertex, time float64) float64 {
+	//gr.printGraph()
 	time++
 	vert.d = time
 	vert.color = "gray"
@@ -90,7 +90,7 @@ func dfsVisit(gr *Graph, vert *Vertex, time float64) float64 {
 		tmp := gr.getV(v.value)
 		if tmp.color == "white" {
 			tmp.p = vert.value
-			time = dfsVisit(gr, tmp, time)
+			time = DFSLook(gr, tmp, time)
 		}
 	}
 	vert.color = "black"
@@ -114,15 +114,15 @@ func BFS(gr *Graph, startVert *Vertex) {
 		for _, v := range gr.Adj[u.value] {
 
 			tmp := gr.getV(v.value)
-			fmt.Println("where are you?", v)
+			//fmt.Println("where are you?", v)
 			if tmp.color == "white" {
 				tmp.color = "gray"
 				tmp.d = u.d + 1
 				tmp.p = u.value
 
 				heap.Push(&hp, *tmp)
-				fmt.Println("heap: ", hp)
-				gr.printG()
+				//fmt.Println("heap: ", hp)
+				//gr.printGraph()
 			}
 		}
 		gr.setColor(u, "black")
@@ -150,14 +150,17 @@ func main() {
 	}
 
 	G := NewGraph(vertices, adjValues)
-
-	G.printG()
-
+	
+	fmt.Println("### BFS BEFORE ###")
+	G.printGraph()
 	s := G.getV("s")
 
+	fmt.Println("### BFS ###")
 	BFS(G, s)
+	fmt.Println("### PRINT BFS ###")
+	G.printGraph()
+	fmt.Println("### DONE BFS ###")
 
-	G.printG()
 
 	// Directed graph for DFS
 	values2 := []string{"u", "v", "w", "x", "y", "z"}
@@ -177,14 +180,18 @@ func main() {
 
 	G2 := NewGraph(vertices2, adjValues2)
 
-	G2.printG()
 
+	fmt.Println("### DFS BEFORE ###")
+	G2.printGraph()
+	fmt.Println("### DFS ###")
 	DFS(G2)
+	fmt.Println("### PRINT DFS ###")
+	G2.printGraph()
+	fmt.Println("### DONE DFS ###")
 
-	G2.printG()
 }
 
-// Methods to form Heap
+// heap setup
 
 type VertexHeap []Vertex
 

@@ -149,16 +149,13 @@ func main() {
 	G.printG()
 }
 
-// Methods to form Heap
-
+// heap setup
 type WVertexHeap []Vertex
 
 func (wvh WVertexHeap) Len() int { return len(wvh) }
 
 func (wvh WVertexHeap) Less(i, j int) bool {
-
 	return wvh[i].d < wvh[j].d
-
 }
 func (wvh WVertexHeap) Swap(i, j int) { wvh[i], wvh[j] = wvh[j], wvh[i] }
 
