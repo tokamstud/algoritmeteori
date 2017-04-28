@@ -126,25 +126,25 @@ func dijkstra(gr *Graph, startVert *Vertex) {
 }
 
 func main() {
-	values := []string{"s", "t", "x", "y", "z"}
+	values := []string{"A", "B", "C", "D", "E"}
 	vertices := make([]Vertex, 0)
 	for _, val := range values {
 		vertices = append(vertices, *NewVertex(val))
 	}
 
 	adjValues := map[string][]Weights{
-		"s": {{"t", 10}, {"y", 5}},
-		"t": {{"x", 1}, {"y", 2}},
-		"x": {{"z", 4}},
-		"y": {{"t", 3}, {"x", 9}, {"z", 2}},
-		"z": {{"s", 7}, {"x", 6}},
+		"A": {{"B", 10}, {"C", 3}},
+		"B": {{"C", 1}, {"D", 2}},
+		"C": {{"D", 8}, {"E", 2}},
+		"D": {{"E", 7}},
+		"E": {{"D", 9}},
 	}
 
 	G := NewGraph(vertices, adjValues)
 
 	G.printG()
 
-	s := G.getV("s")
+	s := G.getV("A")
 	dijkstra(G, s)
 	G.printG()
 }
